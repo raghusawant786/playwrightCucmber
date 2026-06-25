@@ -1,0 +1,12 @@
+node_modules/
+package-lock.json
+.DS_Store
+
+reports/cucumber-report.json
+reports/cucumber-report.html
+reports/traces/
+!reports/traces/.gitkeep
+screenshots/
+
+playwright-report/
+test-results/
