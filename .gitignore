@@ -4,9 +4,13 @@ package-lock.json
 
 reports/cucumber-report.json
 reports/cucumber-report.html
+reports/cucumber-report/
+reports/data/
+reports/trace/
 reports/traces/
 !reports/traces/.gitkeep
 screenshots/
 
+.features-gen/
 playwright-report/
 test-results/

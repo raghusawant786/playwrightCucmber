@@ -1,4 +1,4 @@
-import { test as base } from '@playwright/test';
+import { createBdd, test as base } from 'playwright-bdd';
 import { DashboardPage } from '../pages/DashboardPage';
 import { LoginPage } from '../pages/LoginPage';
 
@@ -15,5 +15,7 @@ export const test = base.extend<PageFixtures>({
     await use(new DashboardPage(page));
   }
 });
+
+export const { Given, When, Then } = createBdd(test);
 
 export { expect } from '@playwright/test';

@@ -1,16 +1,20 @@
 {
   "name": "playwright-cucumber-framework",
   "version": "1.0.0",
-  "description": "Playwright + Cucumber BDD test automation framework in TypeScript.",
+  "description": "Playwright-BDD test automation framework in TypeScript.",
   "main": "index.js",
   "scripts": {
-    "test": "sh -c 'cucumber-js \"$@\"; TEST_EXIT_CODE=$?; ts-node src/support/generateReports.ts --generate-now; exit $TEST_EXIT_CODE' --",
-    "test:smoke": "sh -c 'TAGS=@smoke cucumber-js \"$@\"; TEST_EXIT_CODE=$?; ts-node src/support/generateReports.ts --generate-now; exit $TEST_EXIT_CODE' --",
-    "test:headed": "sh -c 'HEADLESS=false cucumber-js \"$@\"; TEST_EXIT_CODE=$?; ts-node src/support/generateReports.ts --generate-now; exit $TEST_EXIT_CODE' --",
+    "bddgen": "bddgen",
+    "test": "bddgen && playwright test",
+    "test:smoke": "bddgen && playwright test --grep @smoke",
+    "test:visual": "bddgen && playwright test --grep @visual",
+    "test:headed": "bddgen && playwright test --headed",
+    "test:ui": "bddgen && playwright test --ui",
+    "test:update-snapshots": "bddgen && playwright test --update-snapshots",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report",
     "report:cucumber": "open reports/cucumber-report.html",
-    "report:trace": "npx playwright show-trace reports/traces/",
-    "report:all": "npm run report:cucumber && npm run report:trace",
-    "clean:reports": "rm -rf reports/traces reports/cucumber-report.*"
+    "clean:reports": "rm -rf .features-gen playwright-report test-results reports/cucumber-report.html reports/cucumber-report reports/data reports/trace"
   },
   "keywords": [
     "playwright",
@@ -21,14 +25,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@cucumber/cucumber": "^11.2.0",
-    "@cucumber/pretty-formatter": "^1.0.1",
     "@playwright/test": "^1.52.0",
     "@types/node": "^22.15.21",
-    "@types/cucumber-html-reporter": "^5.0.3",
-    "cucumber-html-reporter": "^7.2.0",
     "dotenv": "^16.5.0",
-    "ts-node": "^10.9.2",
+    "playwright-bdd": "^9.2.0",
     "typescript": "^5.8.3"
   }
 }

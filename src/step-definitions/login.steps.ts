@@ -1,89 +1,47 @@
-import { Given, Then, When } from '@cucumber/cucumber';
-import { expect } from '@playwright/test';
-import type { ICustomWorld } from '../hooks/world';
+import { expect, Given, Then, When } from '../fixtures/fixture';
 
-Given('I am on the SauceDemo login page', async function (this: ICustomWorld) {
-  if (!this.loginPage) {
-    throw new Error('LoginPage was not initialized.');
-  }
-
-  await this.loginPage.goto();
+Given('I am on the SauceDemo login page', async ({ loginPage }) => {
+  await loginPage.goto();
 });
 
 When(
   'I login with username {string} and password {string}',
-  async function (this: ICustomWorld, username: string, password: string) {
-    if (!this.loginPage) {
-      throw new Error('LoginPage was not initialized.');
-    }
-
-    await this.loginPage.login(username, password);
+  async ({ loginPage }, username: string, password: string) => {
+    await loginPage.login(username, password);
   }
 );
 
-Then('I should be redirected to the products dashboard', async function (this: ICustomWorld) {
-  if (!this.dashboardPage) {
-    throw new Error('DashboardPage was not initialized.');
-  }
-
-  await expect(await this.dashboardPage.isLoaded()).toBe(true);
+Then('I should be redirected to the products dashboard', async ({ dashboardPage }) => {
+  await expect(await dashboardPage.isLoaded()).toBe(true);
 });
 
-Then('I should see the dashboard title {string}', async function (this: ICustomWorld, title: string) {
-  if (!this.dashboardPage) {
-    throw new Error('DashboardPage was not initialized.');
-  }
-
-  await expect(await this.dashboardPage.getTitle()).toBe(title);
+Then('I should see the dashboard title {string}', async ({ dashboardPage }, title: string) => {
+  await expect(await dashboardPage.getTitle()).toBe(title);
 });
 
-Then('select {string} from the products list', async function (this: ICustomWorld, productName: string) {
-  if (!this.dashboardPage) {
-    throw new Error('DashboardPage was not initialized.');
-  }
-
-  await this.dashboardPage.selectProductFromList(productName);
+Then('select {string} from the products list', async ({ dashboardPage }, productName: string) => {
+  await dashboardPage.selectProductFromList(productName);
 });
 
-Then('Click on Add to cart button', async function (this: ICustomWorld) {
-  if (!this.dashboardPage) {
-    throw new Error('DashboardPage was not initialized.');
-  }
-
-  await this.dashboardPage.addSelectedProductToCart();
+Then('Click on Add to cart button', async ({ dashboardPage }) => {
+  await dashboardPage.addSelectedProductToCart();
 });
 
-Then('click on the shopping cart icon', async function (this: ICustomWorld) {
-  if (!this.dashboardPage) {
-    throw new Error('DashboardPage was not initialized.');
-  }
-
-  await this.dashboardPage.openShoppingCart();
+Then('click on the shopping cart icon', async ({ dashboardPage }) => {
+  await dashboardPage.openShoppingCart();
 });
 
-Then('I should see the product {string} in the cart', async function (this: ICustomWorld, productName: string) {
-  if (!this.dashboardPage) {
-    throw new Error('DashboardPage was not initialized.');
-  }
-
-  await expect(await this.dashboardPage.isProductInCart(productName)).toBe(true);
+Then('I should see the product {string} in the cart', async ({ dashboardPage }, productName: string) => {
+  await expect(await dashboardPage.isProductInCart(productName)).toBe(true);
 });
 
-Then('click on the checkout button', async function (this: ICustomWorld) {
-  if (!this.dashboardPage) {
-    throw new Error('DashboardPage was not initialized.');
-  }
-
-  await this.dashboardPage.checkout();
+Then('click on the checkout button', async ({ dashboardPage }) => {
+  await dashboardPage.checkout();
 });
 
 Then(
   'I should see login error message {string}',
-  async function (this: ICustomWorld, errorMessage: string) {
-    if (!this.loginPage) {
-      throw new Error('LoginPage was not initialized.');
-    }
-
-    await expect(await this.loginPage.getErrorMessage()).toBe(errorMessage);
+  async ({ loginPage }, errorMessage: string) => {
+    await expect(await loginPage.getErrorMessage()).toBe(errorMessage);
   }
 );

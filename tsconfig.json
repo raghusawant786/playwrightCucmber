@@ -15,9 +15,9 @@
     "skipLibCheck": true
   },
   "include": [
-    "cucumber.config.ts",
     "playwright.config.ts",
-    "src/**/*.ts"
+    "src/**/*.ts",
+    ".features-gen/**/*.ts"
   ],
   "exclude": [
     "node_modules",
