@@ -2,7 +2,6 @@
   "name": "playwright-cucumber-framework",
   "version": "1.0.0",
   "description": "Playwright-BDD test automation framework in TypeScript.",
-  "main": "index.js",
   "scripts": {
     "bddgen": "bddgen",
     "test": "bddgen && playwright test",

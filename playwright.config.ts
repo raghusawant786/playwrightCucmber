@@ -25,9 +25,9 @@ export default defineConfig({
   use: {
     baseURL,
     headless: process.env.HEADLESS !== 'false',
-    trace: 'retain-on-failure',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure'
+    trace: 'on',
+    screenshot: 'on',
+    video: 'on'
   },
   projects: [
     {
