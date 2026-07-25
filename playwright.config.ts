@@ -6,8 +6,12 @@ dotenv.config();
 
 const baseURL = process.env.BASE_URL ?? 'https://www.saucedemo.com';
 const testDir = defineBddConfig({
-  features: 'src/features/**/*.feature',
-  steps: ['src/fixtures/fixture.ts', 'src/step-definitions/**/*.ts']
+  features: ['src/ui/features/**/*.feature', 'src/api/features/**/*.feature'],
+  steps: [
+    'src/shared/fixtures/fixture.ts',
+    'src/ui/step-definitions/**/*.ts',
+    'src/api/step-definitions/**/*.ts'
+  ]
 });
 
 export default defineConfig({

@@ -1,4 +1,4 @@
-import { expect, Then } from '../fixtures/fixture';
+import { expect, Then } from '../../shared/fixtures/fixture';
 
 Then('I should be redirected to the products dashboard', async ({ dashboardPage }) => {
   await expect(await dashboardPage.isLoaded()).toBe(true);

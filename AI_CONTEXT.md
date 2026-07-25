@@ -8,23 +8,29 @@ Use this file as a quick reference before making future AI-assisted changes.
 - Test runner: Playwright Test with `playwright-bdd`.
 - Test style: Gherkin feature files mapped to TypeScript step definitions.
 - App under test: SauceDemo, default `BASE_URL=https://www.saucedemo.com`.
+- API demo base URL: JSONPlaceholder, default `API_BASE_URL=https://jsonplaceholder.typicode.com`.
 - Browser project: Chromium desktop.
-- Main pattern: Page Object Model under `src/pages`.
+- UI pattern: Page Object Model under `src/ui/pages`.
+- API pattern: API clients under `src/api/clients`.
 
 ## Important Files
 
 - `playwright.config.ts`: Defines BDD feature/step paths, reporters, browser options, and `BASE_URL`.
 - `package.json`: npm scripts for generation, tests, visual tests, reports, and type checking.
-- `src/features/login.feature`: Main smoke checkout flow.
-- `src/features/visual.feature`: Visual validation checkout flow.
-- `src/step-definitions/login.steps.ts`: Login page steps only.
-- `src/step-definitions/dashboard.steps.ts`: Products dashboard and cart steps.
-- `src/step-definitions/checkout.steps.ts`: Checkout information, overview, completion, and back-home steps.
-- `src/step-definitions/visual.steps.ts`: Visual screenshot comparison steps.
-- `src/pages/LoginPage.ts`: Login page object.
-- `src/pages/DashboardPage.ts`: Product dashboard and cart navigation page object.
-- `src/pages/CheckoutPage.ts`: Checkout information, overview, finish, and confirmation page object.
-- `src/fixtures/fixture.ts`: Custom fixtures exposed to step definitions.
+- `src/ui/features/login.feature`: Main smoke checkout flow.
+- `src/ui/features/visual.feature`: Visual validation checkout flow.
+- `src/ui/step-definitions/login.steps.ts`: Login page steps only.
+- `src/ui/step-definitions/dashboard.steps.ts`: Products dashboard and cart steps.
+- `src/ui/step-definitions/checkout.steps.ts`: Checkout information, overview, completion, and back-home steps.
+- `src/ui/step-definitions/visual.steps.ts`: Visual screenshot comparison steps.
+- `src/ui/pages/LoginPage.ts`: Login page object.
+- `src/ui/pages/DashboardPage.ts`: Product dashboard and cart navigation page object.
+- `src/ui/pages/CheckoutPage.ts`: Checkout information, overview, finish, and confirmation page object.
+- `src/ui/test-data/`: UI test data.
+- `src/api/features/users.feature`: API demo feature for JSONPlaceholder users.
+- `src/api/clients/UsersApiClient.ts`: Reusable users API client.
+- `src/api/test-data/`: API test data.
+- `src/shared/fixtures/fixture.ts`: Custom UI/API fixtures exposed to step definitions.
 
 ## Common Commands
 
@@ -32,6 +38,7 @@ Use this file as a quick reference before making future AI-assisted changes.
 npm run typecheck
 npm run bddgen
 npm test
+npm run test:api
 npm run test:smoke
 npm run test:visual
 npm run test:update-snapshots -- --grep @visual
@@ -45,17 +52,20 @@ Notes:
 
 ## BDD Conventions
 
-- Add scenarios under `src/features/*.feature`.
+- Add UI scenarios under `src/ui/features/*.feature`.
+- Add API scenarios under `src/api/features/*.feature`.
 - Reuse existing step wording when possible.
-- Add new step implementations under `src/step-definitions/*.steps.ts`.
+- Add new UI step implementations under `src/ui/step-definitions/*.steps.ts`.
+- Add new API step implementations under `src/api/step-definitions/*.steps.ts`.
 - Keep step definitions split by page-object ownership, matching `LoginPage`, `DashboardPage`, and `CheckoutPage`.
+- Keep API request logic in API clients, not in step definitions.
 - Prefer page object methods for reusable UI actions.
 - Keep assertions in step definitions, not in feature files.
-- Use tags such as `@smoke` and `@visual` for targeted execution.
+- Use tags such as `@smoke`, `@visual`, and `@api` for targeted execution.
 
 ## Visual Validation Flow
 
-The `@visual` scenario in `src/features/visual.feature` currently validates:
+The `@visual` scenario in `src/ui/features/visual.feature` currently validates:
 
 1. Products dashboard: `products-dashboard.png`
 2. Cart page: `cart-page.png`
@@ -70,7 +80,7 @@ Then I should see the message "THANK YOU FOR YOUR ORDER"
 And the order confirmation page should match the approved design
 ```
 
-Visual screenshot assertions live in `src/step-definitions/visual.steps.ts` and use:
+Visual screenshot assertions live in `src/ui/step-definitions/visual.steps.ts` and use:
 
 ```ts
 {
@@ -100,6 +110,15 @@ The full successful checkout path is:
 15. Confirm `Checkout: Complete!`.
 16. Confirm message `THANK YOU FOR YOUR ORDER`.
 
+## API Flow Reference
+
+The starter `@api` scenario validates:
+
+1. Users API base URL is configured.
+2. Request user with id `1`.
+3. Confirm response status `200`.
+4. Confirm response body contains id `1`.
+
 ## Implementation Preferences
 
 - Use `rg` or `rg --files` for searching.
@@ -108,6 +127,7 @@ The full successful checkout path is:
 - Avoid changing unrelated files or generated artifacts.
 - Run `npm run typecheck` after TypeScript changes.
 - Run `npx bddgen` after feature or step-definition changes.
+- Run `npm run test:api` for API-only scenarios.
 - Run `npm run test:visual` only when SauceDemo network access and visual baselines are expected to be available.
 
 ## Generated And Report Artifacts

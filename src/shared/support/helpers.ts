@@ -11,8 +11,10 @@ export function generateRandomEmail(domain = 'example.com'): string {
   return `user-${Date.now()}-${Math.floor(Math.random() * 10_000)}@${domain}`;
 }
 
-export function readTestData<T>(fileName: string): T {
-  const filePath = path.resolve(process.cwd(), 'test-data', fileName);
+type TestDataArea = 'ui' | 'api';
+
+export function readTestData<T>(fileName: string, area: TestDataArea = 'ui'): T {
+  const filePath = path.resolve(process.cwd(), 'src', area, 'test-data', fileName);
   const fileContents = fs.readFileSync(filePath, 'utf-8');
 
   return JSON.parse(fileContents) as T;

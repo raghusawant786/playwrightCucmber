@@ -4,7 +4,7 @@ A TypeScript test automation framework that runs Gherkin scenarios through
 [playwright-bdd](https://github.com/vitalets/playwright-bdd) and the native
 [Playwright Test](https://playwright.dev/docs/intro) runner.
 
-The included test suite exercises the [SauceDemo](https://www.saucedemo.com/) application using Gherkin scenarios and the Page Object Model.
+The included UI and visual test suites exercise the [SauceDemo](https://www.saucedemo.com/) application using Gherkin scenarios and the Page Object Model. The API suite uses Playwright's API request fixture with reusable API clients.
 
 ## Features
 
@@ -17,6 +17,7 @@ The included test suite exercises the [SauceDemo](https://www.saucedemo.com/) ap
 - Screenshots, traces, and videos retained for failures
 - Playwright HTML and Cucumber-style HTML reports
 - Native Playwright visual comparisons
+- API automation with reusable API clients
 - Environment-based configuration
 - TypeScript strict mode
 
@@ -40,12 +41,14 @@ Create or update the `.env` file in the project root:
 
 ```env
 BASE_URL=https://www.saucedemo.com
+API_BASE_URL=https://jsonplaceholder.typicode.com
 HEADLESS=true
 ```
 
 | Variable | Description | Default |
 | --- | --- | --- |
 | `BASE_URL` | Application URL used by browser contexts | `https://www.saucedemo.com` |
+| `API_BASE_URL` | Base URL used by API clients | `https://jsonplaceholder.typicode.com` |
 | `HEADLESS` | Set to `false` to open the browser UI | `true` |
 
 ## Running Tests
@@ -64,6 +67,12 @@ run visual test
 ```bash
 npm run test:visual
 ```
+Run API scenarios tagged with `@api`:
+
+```bash
+npm run test:api
+```
+
 Run scenarios tagged with `@smoke`:
 
 ```bash
@@ -150,12 +159,20 @@ npm run test:update-snapshots
 ```text
 .
 ├── src/
-│   ├── features/             # Gherkin feature files
-│   ├── step-definitions/     # Cucumber step implementations
-│   ├── pages/                # Page Object Model classes
-│   ├── fixtures/             # Playwright-BDD fixtures and step exports
-│   └── support/              # Logging and helper utilities
-├── test-data/                # Reusable JSON test data
+│   ├── ui/                   # UI and visual automation
+│   │   ├── features/         # UI and visual Gherkin feature files
+│   │   ├── step-definitions/ # UI and visual step implementations
+│   │   ├── pages/            # Page Object Model classes
+│   │   └── test-data/        # UI test data
+│   ├── api/                  # API automation
+│   │   ├── features/         # API Gherkin feature files
+│   │   ├── step-definitions/ # API step implementations
+│   │   ├── clients/          # Reusable API clients
+│   │   ├── test-data/        # API test data
+│   │   └── types/            # API response/request types
+│   └── shared/               # Shared fixtures and support utilities
+│       ├── fixtures/         # Playwright-BDD fixtures and step exports
+│       └── support/          # Logging and helper utilities
 ├── .features-gen/            # Generated native Playwright tests
 ├── reports/                  # Generated Cucumber-style report
 ├── playwright-report/        # Generated Playwright HTML report
@@ -167,9 +184,9 @@ npm run test:update-snapshots
 
 ## Adding a Test
 
-1. Add a scenario to a `.feature` file under `src/features/`.
-2. Implement its steps under `src/step-definitions/`.
-3. Add or update page objects under `src/pages/`.
+1. Add a scenario to a `.feature` file under `src/ui/features/` or `src/api/features/`.
+2. Implement its steps under `src/ui/step-definitions/` or `src/api/step-definitions/`.
+3. Add or update page objects under `src/ui/pages/`, or API clients under `src/api/clients/`.
 4. Use Cucumber tags such as `@smoke` when the scenario belongs to a targeted suite.
 5. Run the scenario and review its Playwright report and failure artifacts.
 

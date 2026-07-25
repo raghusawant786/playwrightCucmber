@@ -5,6 +5,7 @@
   "scripts": {
     "bddgen": "bddgen",
     "test": "bddgen && playwright test",
+    "test:api": "bddgen && playwright test --grep @api",
     "test:smoke": "bddgen && playwright test --grep @smoke",
     "test:visual": "bddgen && playwright test --grep @visual",
     "test:headed": "bddgen && playwright test --headed",
@@ -23,6 +24,9 @@
   ],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "zod": "^3.22.4"
+  },
   "devDependencies": {
     "@playwright/test": "^1.52.0",
     "@types/node": "^22.15.21",

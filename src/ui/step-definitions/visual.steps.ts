@@ -1,4 +1,4 @@
-import { expect, Then } from '../fixtures/fixture';
+import { expect, Then } from '../../shared/fixtures/fixture';
 
 const screenshotOptions = {
   fullPage: true,

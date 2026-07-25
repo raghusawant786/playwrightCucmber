@@ -1,4 +1,4 @@
-import { expect, Then } from '../fixtures/fixture';
+import { expect, Then } from '../../shared/fixtures/fixture';
 
 Then('I should see the checkout Your Information title {string}', async ({ checkoutPage }, title: string) => {
   await expect(await checkoutPage.getTitle()).toBe(title);

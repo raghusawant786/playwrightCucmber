@@ -1,4 +1,4 @@
-import { expect, Given, Then, When } from '../fixtures/fixture';
+import { expect, Given, Then, When } from '../../shared/fixtures/fixture';
 
 Given('I am on the SauceDemo login page', async ({ loginPage }) => {
   await loginPage.goto();
