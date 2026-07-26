@@ -24,7 +24,8 @@ export default defineConfig({
     cucumberReporter('html', {
       outputFile: 'reports/cucumber-report.html',
       externalAttachments: true
-    })
+    }),
+     ['allure-playwright'] 
   ],
   use: {
     baseURL,

@@ -1,0 +1,7 @@
+{
+  "default": {
+    "title": "Default Post Title",
+    "body": "Default post body content",
+    "userId": 1
+  }
+}

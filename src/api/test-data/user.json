@@ -1,0 +1,29 @@
+{
+  "default": {
+    "name": "Default User",
+    "username": "defaultuser",
+    "email": "default@example.com",
+    "phone": "1-234-567-8900",
+    "website": "https://example.com",
+    "address": {
+      "street": "123 Default Street",
+      "suite": "Apt. 100",
+      "city": "DefaultCity",
+      "zipcode": "12345"
+    },
+    "company": {
+      "name": "Default Company",
+      "catchPhrase": "Default services"
+    }
+  },
+  "minimal": {
+    "name": "Minimal User",
+    "username": "minimaluser",
+    "email": "minimal@example.com"
+  },
+  "invalidEmail": {
+    "name": "Invalid Email User",
+    "username": "invalidemail",
+    "email": "invalid-email"
+  }
+}
