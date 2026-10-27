@@ -4,7 +4,7 @@ A TypeScript test automation framework that runs Gherkin scenarios through
 [playwright-bdd](https://github.com/vitalets/playwright-bdd) and the native
 [Playwright Test](https://playwright.dev/docs/intro) runner.
 
-The included UI and visual test suites exercise the [SauceDemo](https://www.saucedemo.com/) application using Gherkin scenarios and the Page Object Model. The API suite uses Playwright's API request fixture with reusable API clients.
+The included UI and visual test suites exercise the [SauceDemo](https://www.saucedemo.com/) application using Gherkin scenarios and the Page Object Model. The API suite targets [JSONPlaceholder](https://jsonplaceholder.typicode.com/) using Playwright's API request fixture, reusable API clients, payload builders, and Zod schema validation.
 
 ## Features
 
@@ -14,10 +14,12 @@ The included UI and visual test suites exercise the [SauceDemo](https://www.sauc
 - Chromium execution with isolated browser contexts
 - Parallel execution and Playwright projects
 - Tag-based test selection
-- Screenshots, traces, and videos retained for failures
-- Playwright HTML and Cucumber-style HTML reports
+- Screenshots, traces, and videos for test runs
+- Playwright, Cucumber-style, and Allure HTML reports
 - Native Playwright visual comparisons
 - API automation with reusable API clients
+- API response assertions and Zod schema validation
+- Template-based API payload builders
 - Environment-based configuration
 - TypeScript strict mode
 
@@ -59,11 +61,14 @@ Run all scenarios:
 npm test
 ```
 
-First time, create/update screenshot baseline:
+First time, create or update visual baselines:
+
 ```bash
 npm run test:update-snapshots -- --grep @visual
 ```
-run visual test
+
+Run visual tests:
+
 ```bash
 npm run test:visual
 ```
@@ -98,6 +103,12 @@ Open Playwright UI mode:
 npm run test:ui
 ```
 
+Run the TypeScript type checker without executing tests:
+
+```bash
+npm run typecheck
+```
+
 Generate Playwright tests from the feature files without running them:
 
 ```bash
@@ -115,7 +126,8 @@ Each test run generates the following output:
 | --- | --- |
 | Playwright HTML report | `playwright-report/index.html` |
 | Cucumber HTML report | `reports/cucumber-report.html` |
-| Failure screenshots, traces, and videos | `test-results/` |
+| Screenshots, traces, and videos | `test-results/` |
+| Allure raw results | `allure-results/` |
 
 Open the Playwright report:
 
@@ -129,7 +141,20 @@ Open the Cucumber report:
 npm run report:cucumber
 ```
 
-Remove generated tests and reports:
+Generate and open the Allure report:
+
+```bash
+npm run allure:generate
+npm run allure:open
+```
+
+Or serve the Allure results directly:
+
+```bash
+npm run allure:serve
+```
+
+Remove generated tests and Playwright/Cucumber reports:
 
 ```bash
 npm run clean:reports
@@ -168,8 +193,11 @@ npm run test:update-snapshots
 │   │   ├── features/         # API Gherkin feature files
 │   │   ├── step-definitions/ # API step implementations
 │   │   ├── clients/          # Reusable API clients
-│   │   ├── test-data/        # API test data
-│   │   └── types/            # API response/request types
+│   │   ├── assertions/       # API response assertions
+│   │   ├── models/           # TypeScript request/response models
+│   │   ├── payloads/         # Template-based request payload builders
+│   │   ├── validators/       # Zod validators and schemas
+│   │   └── test-data/        # API test data
 │   └── shared/               # Shared fixtures and support utilities
 │       ├── fixtures/         # Playwright-BDD fixtures and step exports
 │       └── support/          # Logging and helper utilities
@@ -177,6 +205,8 @@ npm run test:update-snapshots
 ├── reports/                  # Generated Cucumber-style report
 ├── playwright-report/        # Generated Playwright HTML report
 ├── test-results/             # Failure artifacts
+├── allure-results/            # Generated Allure test results
+├── allure-report/             # Generated Allure HTML report
 ├── playwright.config.ts      # Playwright-BDD and runner configuration
 ├── tsconfig.json             # TypeScript configuration
 └── package.json

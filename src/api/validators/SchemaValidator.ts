@@ -45,15 +45,16 @@ export class SchemaValidator {
     schema: z.ZodSchema<T>,
     context?: string
   ): { success: boolean; data?: T; errors?: string[] } {
-    try {
-      const result = this.validate(data, schema, context);
-      return { success: true, data: result };
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const errors = error.errors.map(err => `${err.path.join('.')}: ${err.message}`);
-        return { success: false, errors };
-      }
-      return { success: false, errors: [String(error)] };
+    const result = schema.safeParse(data);
+
+    if (result.success) {
+      logger.info(`✓ Schema validation passed${context ? ` for ${context}` : ''}`);
+      return { success: true, data: result.data };
     }
+
+    const errors = result.error.errors.map(err => `${err.path.join('.') || '<root>'}: ${err.message}`);
+    logger.error(`✗ Schema validation failed${context ? ` for ${context}` : ''}: ${errors.join('; ')}`);
+
+    return { success: false, errors };
   }
 }
